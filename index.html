@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOPIK 54题 · 大作文题库</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#e8f4fd;--card:#fff;--border:#cfe2f3;
+  --text:#1a1916;--sub:#6b6860;--hint:#9e9b95;
+  --blue-bg:#ddeeff;--blue:#1a4a80;--blue-bd:#99c2e8;
+  --red-bg:#fdf0ef;--red:#8b2a22;--red-bd:#f0c4bf;
+  --teal-bg:#eaf6f1;--teal:#1a6646;--teal-bd:#b0dfc9;
+  --amber-bg:#fef5e7;--amber:#7a4a08;--amber-bd:#f5d89a;
+  --purple-bg:#f0eefe;--purple:#3d2d8a;--purple-bd:#c8bff5;
+  --coral-bg:#fff0ec;--coral:#8a3018;--coral-bd:#f5c4b0;
+  --fill-bg:#fff8e1;--fill:#b35c00;--fill-bd:#ffe082;
+  --conn-bg:#e8eaf6;--conn:#3949ab;--conn-bd:#b3bce8;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;font-size:14px;line-height:1.7;}
+.ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;}
+.view{display:none;} .view.active{display:block;}
+#index{padding:0 0 60px;}
+.site-header{background:var(--card);border-bottom:1.5px solid var(--border);padding:20px 20px 16px;}
+.site-header h1{font-size:20px;font-weight:700;letter-spacing:-.3px;margin-bottom:2px;}
+.site-header p{font-size:12px;color:var(--sub);}
+.countdown{display:inline-block;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);border-radius:8px;padding:2px 10px;font-size:12px;font-weight:700;margin-top:6px;}
+.progress-bar-wrap{margin-top:10px;}
+.progress-label{font-size:11px;color:var(--hint);margin-bottom:4px;}
+.progress-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--teal);border-radius:99px;}
+.qref-btn{display:block;margin:16px 16px 0;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:12px;padding:12px 16px;cursor:pointer;text-align:left;}
+.qref-btn-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+.qref-btn-sub{font-size:11px;color:var(--sub);}
+.cat-section{padding:16px 16px 0;}
+.cat-title{font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--hint);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.cat-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.essay-grid{display:flex;flex-direction:column;gap:8px;}
+.essay-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s,box-shadow .15s;}
+.essay-card:hover{border-color:var(--blue-bd);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.essay-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.essay-info{flex:1;min-width:0;}
+.essay-title{font-size:14px;font-weight:600;margin-bottom:2px;}
+.essay-ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:11px;color:var(--sub);margin-top:1px;}
+.essay-meta{font-size:11px;color:var(--hint);margin-top:3px;}
+.essay-type{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:4px;}
+.type-benefit{background:#e8f5e9;color:#2e7d32;}
+.type-cause{background:#fff3e0;color:#e65100;}
+.type-problem{background:var(--red-bg);color:var(--red);}
+.essay-status{font-size:18px;flex-shrink:0;}
+.coming-card{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:12px 16px;color:var(--hint);font-size:13px;}
+.essay-nav{background:var(--card);border-bottom:1.5px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;}
+.back-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--sub);font-family:-apple-system,'PingFang SC',sans-serif;}
+.back-btn:hover{background:var(--bg);}
+.essay-nav-title{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mode-tabs{display:flex;gap:6px;padding:12px 14px 0;}
+.mode-tab{flex:1;text-align:center;padding:8px;border-radius:10px 10px 0 0;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--border);border-bottom:none;background:var(--bg);color:var(--sub);}
+.mode-tab.active{background:var(--card);color:var(--blue);border-color:var(--blue-bd);}
+.essay-body{padding:14px 14px 40px;}
+.question-box{background:#fff;border:1.5px solid var(--blue-bd);border-radius:12px;padding:16px 18px;margin-bottom:20px;}
+.question-box h3{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.5px;margin-bottom:10px;}
+.question-bg{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:13px;line-height:1.8;color:var(--sub);padding:10px 12px;background:var(--bg);border-radius:8px;margin-bottom:10px;}
+.question-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.question-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;}
+.q-num{font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.q1{background:#e3f2fd;color:#1565c0;}
+.q2{background:var(--red-bg);color:var(--red);}
+.q3{background:var(--teal-bg);color:var(--teal);}
+.q-ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:13px;line-height:1.6;}
+.q-zh{font-size:11px;color:var(--hint);margin-top:1px;}
+.type-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.fulltext{background:#fffef9;border:1.5px solid var(--amber-bd);border-radius:12px;padding:16px 18px;margin-bottom:20px;}
+.fulltext-title{font-size:11px;font-weight:700;color:var(--amber);margin-bottom:12px;letter-spacing:.3px;}
+.fulltext p{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:14px;line-height:2.1;margin-bottom:10px;}
+.fulltext p:last-child{margin-bottom:0;}
+.para-label{display:inline-block;font-family:-apple-system,'PingFang SC',sans-serif;font-size:10px;font-weight:700;color:var(--hint);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;margin-right:6px;vertical-align:middle;position:relative;top:-1px;}
+.tpl{color:#bbb;}
+.fill{background:var(--fill-bg);color:var(--fill);border-radius:3px;padding:0 2px;font-weight:600;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;align-items:center;}
+.seg-header{display:flex;align-items:center;gap:8px;margin:20px 0 8px;}
+.seg-label{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.seg-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.seg-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.seg-teal{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-bd);}
+.seg-line{flex:1;height:1px;background:var(--border);}
+.seg-count{font-size:11px;color:var(--hint);white-space:nowrap;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;}
+.sent-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.sent-num{font-size:11px;font-weight:700;color:var(--hint);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.sentence-display{flex:1;}
+.sent-ko-wrap{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:14.5px;font-weight:500;line-height:1.85;margin-bottom:6px;}
+.s-tpl{color:#bbb;}
+.s-fill{background:var(--fill-bg);color:var(--fill);border-radius:4px;padding:1px 4px;font-weight:700;border:1px solid var(--fill-bd);}
+.chinese{font-size:12.5px;color:var(--sub);line-height:1.6;padding:7px 11px;background:var(--bg);border-radius:8px;margin-bottom:10px;border-left:3px solid var(--border);}
+.notes{display:flex;flex-direction:column;gap:5px;}
+.note-item{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.6;color:var(--sub);}
+.tag-template{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-bd);}
+.tag-careful{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+.tag-advance{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);}
+.tag-reuse{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.tag-copy{background:var(--coral-bg);color:var(--coral);border:1px solid var(--coral-bd);}
+.tag-error{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.tag-conn{background:var(--conn-bg);color:var(--conn);border:1px solid var(--conn-bd);}
+.h-a{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:0 3px;font-size:12px;}
+.h-r{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;background:var(--red-bg);color:var(--red);border-radius:3px;padding:0 3px;font-size:12px;}
+.h-g{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;background:var(--teal-bg);color:var(--teal);border-radius:3px;padding:0 3px;font-size:12px;}
+.h-c{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;background:var(--conn-bg);color:var(--conn);border-radius:3px;padding:0 3px;font-size:12px;font-weight:700;}
+.reuse-box{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:10px;padding:14px 16px;margin-top:20px;}
+.reuse-box h3{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;}
+.reuse-item{font-size:12.5px;line-height:1.7;color:var(--sub);padding:5px 0;border-bottom:1px solid var(--blue-bd);}
+.reuse-item:last-child{border-bottom:none;}
+/* ===== 默写模式 ===== */
+.dictation-intro{background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;color:var(--amber);line-height:1.6;}
+.dict-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;}
+.dict-zh{font-size:13.5px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+.dict-hint{font-size:11px;color:var(--hint);margin-bottom:6px;}
+.dict-answer{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:14.5px;font-weight:600;line-height:1.8;color:var(--teal);background:var(--teal-bg);border-radius:8px;padding:8px 12px;margin-top:8px;display:none;}
+.dict-card.revealed .dict-answer{display:block;}
+.dict-tap{font-size:11px;color:var(--blue);margin-top:6px;}
+.dict-card.revealed .dict-tap{display:none;}
+.dict-fill{background:var(--fill-bg);color:var(--fill);border-radius:3px;padding:0 3px;font-weight:700;}
+.word-grid{display:flex;flex-direction:column;gap:6px;}
+.word-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.word-zh{font-size:13px;color:var(--text);}
+.word-ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:14px;font-weight:600;color:var(--teal);display:none;}
+.word-card.revealed .word-ko{display:block;}
+.word-card.revealed .word-tap{display:none;}
+.word-tap{font-size:11px;color:var(--blue);}
+.dict-section-title{font-size:12px;font-weight:700;color:var(--sub);margin:16px 0 8px;letter-spacing:.5px;}
+.reveal-all-btn{display:block;width:100%;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:-apple-system,'PingFang SC',sans-serif;}
+#quickref{padding:0 0 60px;}
+.qr-nav{background:var(--card);border-bottom:1.5px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.qr-body{padding:14px;}
+.qr-section{margin-bottom:20px;}
+.qr-section h3{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.qr-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px;}
+.qr-label{font-size:10px;font-weight:700;color:var(--hint);margin-bottom:4px;}
+.qr-ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;font-size:13.5px;line-height:1.8;color:var(--text);margin-bottom:4px;}
+.qr-fill{background:var(--fill-bg);color:var(--fill);border-radius:3px;padding:0 3px;font-weight:700;font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;}
+.qr-zh{font-size:11px;color:var(--hint);}
+.conn-pill{display:inline-block;background:var(--conn-bg);color:var(--conn);border:1px solid var(--conn-bd);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;margin:3px;}
+.conn-pill .ko{font-family:'Apple SD Gothic Neo','Malgun Gothic','PingFang SC',sans-serif;}
+footer{margin-top:24px;font-size:11px;color:var(--hint);text-align:center;}
+</style>
+</head>
+<body>
+<div id="index" class="view active">
+  <div class="site-header">
+    <h1>TOPIK 54题 · 大作文题库</h1>
+    <p>목표 28점 · 每天2篇</p>
+    <div class="countdown" id="countdown">计算倒计时中…</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">完成进度：4 / 40 篇</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+    </div>
+  </div>
+  <div class="qref-btn" onclick="showQuickRef()">
+    <div class="qref-btn-title">⚡ 万能句型 + 连接词速查表</div>
+    <div class="qref-btn-sub">固定句型 · 转折词 · 万能副词 · 考前必背</div>
+  </div>
+  <div class="cat-section">
+    <div class="cat-title">💼 职场 · 制度</div>
+    <div class="essay-grid">
+      <div class="essay-card" onclick="showEssay('essay1')">
+        <div class="essay-icon" style="background:#eef4fb;">🏆</div>
+        <div class="essay-info"><div class="essay-title">绩效奖励制度</div><div class="essay-ko">성과 보상 제도</div>
+          <div class="essay-meta"><span class="essay-type type-benefit">好处</span><span class="essay-type type-problem">问题点</span><span class="essay-type" style="background:#f3e5f5;color:#6a1b9a;">对策</span> · 16句</div></div>
+        <div class="essay-status">📝</div>
+      </div>
+      <div class="essay-card" onclick="showEssay('essay4')">
+        <div class="essay-icon" style="background:#eef4fb;">🏠</div>
+        <div class="essay-info"><div class="essay-title">居家办公</div><div class="essay-ko">재택근무</div>
+          <div class="essay-meta"><span class="essay-type type-benefit">优点</span><span class="essay-type type-problem">问题点</span><span class="essay-type" style="background:#f3e5f5;color:#6a1b9a;">对策</span> · 16句</div></div>
+        <div class="essay-status">📝</div>
+      </div>
+    </div>
+  </div>
+  <div class="cat-section">
+    <div class="cat-title">👥 社会 · 人口</div>
+    <div class="essay-grid">
+      <div class="essay-card" onclick="showEssay('essay2')">
+        <div class="essay-icon" style="background:#eaf6f1;">👶</div>
+        <div class="essay-info"><div class="essay-title">人口结构变化</div><div class="essay-ko">인구 구조 변화</div>
+          <div class="essay-meta"><span class="essay-type type-cause">原因</span><span class="essay-type type-problem">问题点</span><span class="essay-type" style="background:#f3e5f5;color:#6a1b9a;">对策</span> · 16句</div></div>
+        <div class="essay-status">📝</div>
+      </div>
+    </div>
+  </div>
+  <div class="cat-section">
+    <div class="cat-title">🌱 科技 · 数字</div>
+    <div class="essay-grid">
+      <div class="essay-card" onclick="showEssay('essay3')">
+        <div class="essay-icon" style="background:#eaf6f1;">📱</div>
+        <div class="essay-info"><div class="essay-title">数字设备的便利与副作用</div><div class="essay-ko">디지털 기기</div>
+          <div class="essay-meta"><span class="essay-type type-benefit">便利</span><span class="essay-type type-problem">副作用</span><span class="essay-type" style="background:#f3e5f5;color:#6a1b9a;">对策</span> · 16句</div></div>
+        <div class="essay-status">📝</div>
+      </div>
+    </div>
+  </div>
+  <div class="cat-section"><div class="cat-title">📚 教育 · 学习</div><div class="coming-card">即将解锁 · 每写完一篇自动添加</div></div>
+  <div class="cat-section"><div class="cat-title">🏥 健康 · 生活</div><div class="coming-card">即将解锁 · 每写完一篇自动添加</div></div>
+  <footer style="padding:24px 16px 0;">TOPIK II · 54题大作文练习 · 加油！</footer>
+</div>
+
+<div id="essay" class="view">
+  <div class="essay-nav">
+    <button class="back-btn" onclick="showIndex()">← 返回</button>
+    <div class="essay-nav-title" id="essay-nav-title"></div>
+  </div>
+  <div class="mode-tabs">
+    <div class="mode-tab active" id="tab-learn" onclick="switchMode('learn')">📖 学习</div>
+    <div class="mode-tab" id="tab-dict" onclick="switchMode('dict')">✍️ 整句默写</div>
+    <div class="mode-tab" id="tab-word" onclick="switchMode('word')">🔑 词组默写</div>
+  </div>
+  <div class="essay-body" id="essay-body"></div>
+</div>
+
+<div id="quickref" class="view">
+  <div class="qr-nav"><button class="back-btn" onclick="showIndex()">← 返回</button><div style="font-size:13px;font-weight:600;">⚡ 万能句型 + 连接词速查</div></div>
+  <div class="qr-body">
+    <div class="qr-section"><h3>🔗 转折词 / 连接词（死记就能用）</h3><div class="qr-card">
+      <span class="conn-pill"><span class="ko">이에 따라</span> 因此</span><span class="conn-pill"><span class="ko">한편</span> 另一方面</span><span class="conn-pill"><span class="ko">따라서</span> 因此</span><span class="conn-pill"><span class="ko">그래서</span> 所以</span><span class="conn-pill"><span class="ko">뿐만 아니라</span> 不仅如此</span><span class="conn-pill"><span class="ko">~기보다</span> 比起～</span><span class="conn-pill"><span class="ko">~고</span> 并且</span><span class="conn-pill"><span class="ko">~며</span> 一边～</span><span class="conn-pill"><span class="ko">~면</span> 如果就</span><span class="conn-pill"><span class="ko">~다 보면</span> 这样下去</span><span class="conn-pill"><span class="ko">~아서/어서</span> 因为所以</span>
+    </div></div>
+    <div class="qr-section"><h3>✨ 万能副词（凑字数又显水平）</h3><div class="qr-card">
+      <span class="conn-pill"><span class="ko">우선</span> 首先</span><span class="conn-pill"><span class="ko">결국</span> 最终</span><span class="conn-pill"><span class="ko">적극적으로</span> 积极地</span><span class="conn-pill"><span class="ko">지나치게</span> 过于</span><span class="conn-pill"><span class="ko">함께</span> 一同</span><span class="conn-pill"><span class="ko">점점</span> 渐渐</span><span class="conn-pill"><span class="ko">특히</span> 尤其</span><span class="conn-pill"><span class="ko">예전보다</span> 比以前</span>
+    </div></div>
+    <div class="qr-section"><h3>🔵 第一段固定句型</h3>
+      <div class="qr-card"><div class="qr-label">句1·背景句</div><div class="qr-ko">끊임없이 변화된 사회로 말미암아 <span class="qr-fill">주제어</span>에 관한 논의가 활발해졌다.</div><div class="qr-zh">随着不断变化的社会，关于[主题词]的讨论变得活跃起来。</div></div>
+      <div class="qr-card"><div class="qr-label">句2·导入句</div><div class="qr-ko">이에 따라 본고에서는 <span class="qr-fill">제1문</span> 및 <span class="qr-fill">제2문</span> 등을 순차적으로 고찰하고자 한다.</div><div class="qr-zh">因此，本文将依次探讨[第1问]及[第2问]等。</div></div>
+      <div class="qr-card"><div class="qr-label">句3·好处类中心句</div><div class="qr-ko"><span class="qr-fill">주제어</span>의 긍정적 영향은 다양한데 우선 <span class="qr-fill">好处1</span> 것을 꼽을 수 있다.</div><div class="qr-zh">[主题词]的积极影响是多种多样的，首先可以指出[好处1]。</div></div>
+      <div class="qr-card"><div class="qr-label">句4·原因论述</div><div class="qr-ko">왜냐하면 <span class="qr-fill">원인</span>기 때문이다.</div><div class="qr-zh">因为[原因]。</div></div>
+      <div class="qr-card"><div class="qr-label">句5·观点2</div><div class="qr-ko">또한 <span class="qr-fill">好处2</span> 것도 대표적이다.</div><div class="qr-zh">此外，[好处2]也是具有代表性的。</div></div>
+      <div class="qr-card"><div class="qr-label">句6·结果论述</div><div class="qr-ko"><span class="qr-fill">결과</span>기 마련이다.</div><div class="qr-zh">[结果]必然如此。</div></div>
+    </div>
+    <div class="qr-section"><h3>🔴 第二段固定句型</h3>
+      <div class="qr-card"><div class="qr-label">句7·中心句</div><div class="qr-ko">한편 <span class="qr-fill">주제어</span>로 인해 발생하는 문제점도 각양각색이다.</div><div class="qr-zh">另一方面，由于[主题词]而出现的问题也是形形色色的。</div></div>
+      <div class="qr-card"><div class="qr-label">句8·问题1</div><div class="qr-ko">무엇보다도 <span class="qr-fill">문제1</span>는 문제점이 존재한다.</div><div class="qr-zh">最重要的是，存在着[问题1]这样的问题。</div></div>
+      <div class="qr-card"><div class="qr-label">句10·问题2</div><div class="qr-ko">뿐만 아니라 <span class="qr-fill">문제2</span> 것도 무시할 수 없다.</div><div class="qr-zh">不仅如此，[问题2]也是不容忽视的。</div></div>
+      <div class="qr-card"><div class="qr-label">句11·结果</div><div class="qr-ko"><span class="qr-fill">결과</span>기 마련이다.</div><div class="qr-zh">[结果]必然如此。</div></div>
+    </div>
+    <div class="qr-section"><h3>🟢 第三段固定句型</h3>
+      <div class="qr-card"><div class="qr-label">句12·中心句</div><div class="qr-ko">따라서 <span class="qr-fill">이러한 문제를 해결하기 위해</span> 다각적인 노력이 필수적이다.</div><div class="qr-zh">因此，为了[解决这些问题]，多方面的努力是必不可少的。</div></div>
+      <div class="qr-card"><div class="qr-label">句13·对策1</div><div class="qr-ko">일단 <span class="qr-fill">做法1</span>아/어야 한다.</div><div class="qr-zh">首先，必须[做法1]。</div></div>
+      <div class="qr-card"><div class="qr-label">句14·对策2</div><div class="qr-ko">아울러 <span class="qr-fill">做法2</span>는 것도 요구된다.</div><div class="qr-zh">同时，也要求[做法2]。</div></div>
+      <div class="qr-card"><div class="qr-label">句15·对策3</div><div class="qr-ko">마지막으로 <span class="qr-fill">做法3</span>(으)ㄹ 필요도 있다.</div><div class="qr-zh">最后，也有必要[做法3]。</div></div>
+      <div class="qr-card"><div class="qr-label">句16·万能收尾（字数不够才加）</div><div class="qr-ko">이러한 노력이 모이면 <span class="qr-fill">더 나은 결과로 이어질</span> 것이다.</div><div class="qr-zh">这样的努力汇聚起来，会带来更好的结果。</div></div>
+    </div>
+    <footer>TOPIK II · 速查表 · 加油！</footer>
+  </div>
+</div>
+<script>
+(function(){var exam=new Date('2026-07-05');var today=new Date();var diff=Math.ceil((exam-today)/86400000);document.getElementById('countdown').textContent='距离考试还有 '+diff+' 天';})();
+var tagMap={template:'tag-template',careful:'tag-careful',advance:'tag-advance',reuse:'tag-reuse',copy:'tag-copy',error:'tag-error',conn:'tag-conn'};
+var currentEssay=null;var currentMode='learn';
+var essays={"essay1": {"title": "绩效奖励制度", "ko": "성과 보상 제도", "icon": "🏆", "types": [["好处", "type-benefit", ""], ["问题点", "type-problem", ""], ["企业/个人对策", "", "background:#f3e5f5;color:#6a1b9a;"]], "question": {"bg": "성과 보상 제도는 기업이 직원의 업무 성과에 따라 보너스나 휴가 등으로 보상하는 것을 말한다. 이 제도는 긍정적 영향도 있지만 문제점도 적지 않다. 아래의 내용을 중심으로 '성과 보상 제도의 문제점 및 해결 방안'에 대한 자신의 생각을 쓰라.", "items": [["Q1", "q1", "성과 보상 제도의 긍정적 영향은 무엇인가?", "绩效奖励制度的积极影响是什么？"], ["Q2", "q2", "성과 보상 제도로 인해 나타나는 문제점은 무엇인가?", "由于绩效奖励制度出现的问题点是什么？"], ["Q3", "q3", "이러한 문제를 해결하기 위해 기업과 개인이 어떻게 노력해야 하는가?", "为了解决这些问题，企业和个人应该如何努力？"]]}, "sentences": [{"seg": "第一段", "segtype": "blue", "segcount": "背景 + 积极影响", "num": "句1", "parts": [[1, "끊임없이 변화된 사회로 말미암아 "], [0, "성과 보상 제도"], [1, "에 관한 논의가 활발해졌다."]], "zh": "随着不断变化的社会，关于绩效奖励制度的讨论变得活跃起来。", "fill": "성과 보상 제도", "notes": [["template", "万能模板", "灰色一字不动，只换 <span class='h-a'>성과 보상 제도</span>。"], ["error", "易错", "<span class='h-r'>말미암이</span> ✗ → <span class='h-g'>말미암아</span> ✓"]]}, {"num": "句2", "parts": [[1, "이에 따라 본고에서는 "], [0, "긍정적 영향"], [1, " 및 "], [0, "문제점"], [1, " 등을 순차적으로 고찰하고자 한다."]], "zh": "因此，本文将依次探讨积极影响及问题点等。", "fill": "긍정적 영향 / 문제점", "notes": [["conn", "连接词", "<span class='h-c'>이에 따라</span>（因此）开头万能。"], ["careful", "审题", "第1问问好处 → <span class='h-g'>긍정적 영향</span>。"]]}, {"num": "句3", "parts": [[1, "성과 보상 제도가 개인에게 미치는 긍정적 영향은 다양한데 우선 "], [0, "직원들이 더 적극적으로 일하게 되는"], [1, " 것을 꼽을 수 있다."]], "zh": "绩效奖励制度对个人产生的积极影响是多种多样的，首先可以指出的是员工会更积极地工作。", "fill": "직원들이 더 적극적으로 일하게 되는", "notes": [["conn", "万能副词", "<span class='h-c'>적극적으로</span>（积极地）凑字又得体。"], ["advance", "语法", "<span class='h-g'>~게 되다</span>（变得～）更地道。"]]}, {"num": "句4", "parts": [[1, "왜냐하면 "], [0, "상을 받으면 인정받는 느낌이 들고 그래서 일할 의욕이 생기"], [1, "기 때문이다."]], "zh": "因为得到奖励会有被认可的感觉，所以产生工作动力。", "fill": "상을 받으면 인정받는 느낌이 들고 그래서 일할 의욕이 생기", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>+<span class='h-c'>그래서</span> 串句凑字。"], ["advance", "亮点词", "<span class='h-g'>인정받다</span>（被认可）、<span class='h-g'>의욕</span>（动力）。"]]}, {"num": "句5", "parts": [[1, "또한 "], [0, "회사 전체의 성과가 향상되는"], [1, " 것도 대표적이다."]], "zh": "此外，整个公司的业绩得到提升这一点也是具有代表性的。", "fill": "회사 전체의 성과가 향상되는", "notes": [["advance", "亮点词", "<span class='h-g'>향상되다</span>（提升）比 좋아지다 高级又好记。"]]}, {"num": "句6", "parts": [[0, "한 직원이 좋은 결과를 내면 다른 직원들도 자극을 받아 더 노력하"], [1, "기 마련이다."]], "zh": "一个员工取得好成绩的话，其他员工也会受到激励而更加努力。", "fill": "한 직원이 좋은 결과를 내면 다른 직원들도 자극을 받아 더 노력하", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>（如果就）。"], ["advance", "亮点词", "<span class='h-g'>자극을 받다</span>（受到激励）。"]]}, {"seg": "第二段", "segtype": "red", "segcount": "问题点", "num": "句7", "parts": [[1, "한편 성과 보상 제도로 인해 나타나는 문제점도 각양각색이다."]], "zh": "另一方面，由于绩效奖励制度而出现的问题也是形形色色的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "全句照抄。"], ["conn", "转折词", "<span class='h-c'>한편</span>（另一方面）。"]]}, {"num": "句8", "parts": [[1, "무엇보다도 "], [0, "직원들 사이의 경쟁이 지나치게 심해진다"], [1, "는 문제점이 존재한다."]], "zh": "最重要的是，存在着员工之间竞争过于激烈这样的问题。", "fill": "직원들 사이의 경쟁이 지나치게 심해진다", "notes": [["conn", "万能副词", "<span class='h-c'>지나치게</span>（过于）描述负面问题超好用。"], ["advance", "亮点词", "<span class='h-g'>경쟁</span>（竞争）。"]]}, {"num": "句9", "parts": [[1, "왜냐하면 "], [0, "상을 받기 위해 서로 돕기보다 경쟁하려고 하고 그래서 회사 분위기도 나빠지"], [1, "기 때문이다."]], "zh": "因为为了得到奖励，比起互相帮助更倾向于竞争，所以公司氛围也变差。", "fill": "상을 받기 위해 서로 돕기보다 경쟁하려고 하고 그래서 회사 분위기도 나빠지", "notes": [["conn", "连接词", "<span class='h-c'>~기보다</span>（比起）+ <span class='h-c'>~고 그래서</span> 串句。"], ["advance", "亮点词", "<span class='h-g'>분위기가 나빠지다</span>（氛围变差）。"]]}, {"num": "句10", "parts": [[1, "뿐만 아니라 "], [0, "평가 기준이 분명하지 않으면 직원들이 불만을 느끼는"], [1, " 것도 무시할 수 없다."]], "zh": "不仅如此，评价标准不明确的话员工会感到不满这一点也是不容忽视的。", "fill": "평가 기준이 분명하지 않으면 직원들이 불만을 느끼는", "notes": [["conn", "转折词", "<span class='h-c'>뿐만 아니라</span>（不仅如此）。"], ["advance", "亮点词", "<span class='h-g'>평가 기준</span>（评价标准）、<span class='h-g'>불만을 느끼다</span>（感到不满）。"]]}, {"num": "句11", "parts": [[0, "이러한 불만이 쌓이면 결국 우수한 직원들이 회사를 떠나"], [1, "기 마련이다."]], "zh": "这样的不满积累起来，最终优秀的员工会离开公司。", "fill": "이러한 불만이 쌓이면 결국 우수한 직원들이 회사를 떠나", "notes": [["conn", "万能副词", "<span class='h-c'>결국</span>（最终）。"], ["advance", "亮点词", "<span class='h-g'>우수한</span>（优秀）、<span class='h-g'>쌓이다</span>（积累）。"]]}, {"seg": "第三段", "segtype": "teal", "segcount": "对策（企业+个人）", "num": "句12", "parts": [[1, "따라서 이러한 문제를 해결하기 위해 기업과 개인의 노력이 필수적이다."]], "zh": "因此，为了解决这些问题，企业和个人的努力是必不可少的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "限定了 <span class='h-g'>기업과 개인</span>。"], ["conn", "转折词", "<span class='h-c'>따라서</span>（因此）。"]]}, {"num": "句13", "parts": [[1, "일단 "], [0, "기업은 공정하고 분명한 평가 기준을 마련해"], [1, "야 한다."]], "zh": "首先，企业必须制定公正且明确的评价标准。", "fill": "기업은 공정하고 분명한 평가 기준을 마련해", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>（公正和明确）。"], ["advance", "亮点词", "<span class='h-g'>기준을 마련하다</span>（制定标准）超万能。"]]}, {"num": "句14", "parts": [[1, "아울러 "], [0, "기업은 개인의 성과뿐만 아니라 협동심도 함께 평가하"], [1, "는 것도 요구된다."]], "zh": "同时，也要求企业不仅评价个人成绩，还一同评价协作精神。", "fill": "기업은 개인의 성과뿐만 아니라 협동심도 함께 평가하", "notes": [["conn", "转折词", "<span class='h-c'>아울러</span>+<span class='h-c'>함께</span>。"], ["advance", "亮点词", "<span class='h-g'>협동심</span>（协作精神）。"]]}, {"num": "句15", "parts": [[1, "마지막으로 "], [0, "개인도 동료와 적극적으로 협력하며 함께 성장할"], [1, " 필요도 있다."]], "zh": "最后，个人也有必要与同事积极协作，共同成长。", "fill": "개인도 동료와 적극적으로 협력하며 함께 성장할", "notes": [["conn", "连接词", "<span class='h-c'>~며</span>+<span class='h-c'>적극적으로</span>+<span class='h-c'>함께</span>。"], ["advance", "亮点词", "<span class='h-g'>협력하다</span>、<span class='h-g'>성장하다</span>。"]]}, {"num": "句16", "parts": [[0, "이러한 노력이 모이면 더 좋은 결과로 이어질 것이다"], [1, "."]], "zh": "这样的努力汇聚起来，会带来更好的结果。", "fill": "이러한 노력이 모이면 더 좋은 결과로 이어질 것이다", "notes": [["conn", "万能收尾", "字数不够时加这句，凑到倒数一二行。"]]}], "reuse": [["기준을 마련하다（制定标准）", "教育、晋升、绩效类对策段"], ["향상되다（提升）", "业绩、能力、水平类"], ["자극을 받다（受到激励）", "竞争、学习、成长类"], ["불만을 느끼다（感到不满）", "制度类问题段"], ["결국 ~기 마련이다（最终必然）", "第二段后果句"]], "words": [["业绩提升", "성과가 향상되다"], ["受到激励", "자극을 받다"], ["竞争加剧", "경쟁이 심해지다"], ["感到不满", "불만을 느끼다"], ["不满积累", "불만이 쌓이다"], ["制定评价标准", "평가 기준을 마련하다"], ["协作精神", "협동심"], ["共同成长", "함께 성장하다"]]}, "essay2": {"title": "人口结构变化", "ko": "인구 구조 변화", "icon": "👶", "types": [["原因", "type-cause", ""], ["问题点", "type-problem", ""], ["对策", "", "background:#f3e5f5;color:#6a1b9a;"]], "question": {"bg": "최근 사회의 어린이와 노인의 비율이 급하게 변하고 있다. 이로 인해 인구 구조도 달라지고 있다. 이런 변화로 여러 사회 문제가 생겼다. 아래의 내용을 중심으로 '인구 구조 변화 및 해결 방안'에 대한 자신의 생각을 쓰라.", "items": [["Q1", "q1", "어린이와 노인의 비율이 변화한 원인은 무엇인가?", "儿童和老人比例变化的原因是什么？"], ["Q2", "q2", "이와 같은 인구 비율 변화로 어떤 문제가 생기는가?", "这样的人口比例变化会产生什么问题？"], ["Q3", "q3", "이를 대응하기 위해 어떻게 해야 하는가?", "为了应对应该怎么做？"]]}, "sentences": [{"seg": "第一段", "segtype": "blue", "segcount": "背景 + 变化原因", "num": "句1", "parts": [[1, "끊임없이 변화된 사회로 말미암아 "], [0, "인구 구조"], [1, "에 관한 논의가 활발해졌다."]], "zh": "随着不断变化的社会，关于人口结构的讨论变得活跃起来。", "fill": "인구 구조", "notes": [["template", "万能模板", "只换 <span class='h-a'>인구 구조</span>。"], ["error", "易错", "<span class='h-r'>말미암이</span>✗→<span class='h-g'>말미암아</span>✓"]]}, {"num": "句2", "parts": [[1, "이에 따라 본고에서는 "], [0, "변화 원인"], [1, " 및 "], [0, "문제점"], [1, " 등을 순차적으로 고찰하고자 한다."]], "zh": "因此，本文将依次探讨变化原因及问题点等。", "fill": "변화 원인 / 문제점", "notes": [["careful", "审题重点", "第1问是\"原因\"→<span class='h-g'>변화 원인</span>，不是긍정적 영향！"]]}, {"num": "句3", "parts": [[1, "어린이와 노인의 비율이 변화한 원인은 다양한데 우선 "], [0, "젊은 세대가 결혼을 늦게 하고 아이도 적게 낳는"], [1, " 것을 꼽을 수 있다."]], "zh": "儿童和老人比例变化的原因是多种多样的，首先可以指出年轻一代结婚晚而且孩子生得少。", "fill": "젊은 세대가 결혼을 늦게 하고 아이도 적게 낳는", "notes": [["conn", "连接词", "<span class='h-c'>~고</span> 连接两句凑字。"], ["advance", "亮点词", "<span class='h-g'>세대</span>、<span class='h-g'>비율</span>。"]]}, {"num": "句4", "parts": [[1, "왜냐하면 "], [0, "경제적 부담이 크고 그래서 아이를 키우기 어렵"], [1, "기 때문이다."]], "zh": "因为经济负担大，所以养孩子很难。", "fill": "경제적 부담이 크고 그래서 아이를 키우기 어렵", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>+<span class='h-c'>그래서</span>。"], ["advance", "亮点词", "<span class='h-g'>경제적 부담</span>。"]]}, {"num": "句5", "parts": [[1, "또한 "], [0, "의료 기술이 발전하여 평균 수명이 늘어난"], [1, " 것도 대표적이다."]], "zh": "此外，医疗技术发展平均寿命延长这一点也是具有代表性的。", "fill": "의료 기술이 발전하여 평균 수명이 늘어난", "notes": [["advance", "亮点词", "<span class='h-g'>평균 수명</span>、<span class='h-g'>늘어나다</span>↔줄어들다。"]]}, {"num": "句6", "parts": [[0, "사람들이 예전보다 오래 살게 되어 노인의 비율이 점점 높아지"], [1, "기 마련이다."]], "zh": "人们比以前活得更久，老人的比例渐渐升高。", "fill": "사람들이 예전보다 오래 살게 되어 노인의 비율이 점점 높아지", "notes": [["conn", "万能副词", "<span class='h-c'>예전보다</span>+<span class='h-c'>점점</span>。"], ["advance", "亮点词", "<span class='h-g'>높아지다</span>↔낮아지다。"]]}, {"seg": "第二段", "segtype": "red", "segcount": "问题点", "num": "句7", "parts": [[1, "이와 같은 인구 비율 변화로 각양각색의 문제도 생긴다."]], "zh": "由于这样的人口比例变化，也会产生形形色色的问题。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "全句照抄，不要加 지나친。"]]}, {"num": "句8", "parts": [[1, "무엇보다도 "], [0, "나라의 의료비 부담이 크게 늘어난다"], [1, "는 문제가 존재한다."]], "zh": "最重要的是，存在着国家医疗费负担大幅增加这样的问题。", "fill": "나라의 의료비 부담이 크게 늘어난다", "notes": [["advance", "亮点词", "<span class='h-g'>의료비</span>、<span class='h-g'>부담</span>、<span class='h-g'>늘어나다</span>。"]]}, {"num": "句9", "parts": [[1, "왜냐하면 "], [0, "노인이 많아지면 병원비가 늘고 그래서 젊은 세대가 내야 하는 세금의 부담도 점점 커지"], [1, "기 때문이다."]], "zh": "因为老人变多医院费用增加，所以年轻一代要交的税金负担也渐渐变大。", "fill": "노인이 많아지면 병원비가 늘고 그래서 젊은 세대가 내야 하는 세금의 부담도 점점 커지", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>+<span class='h-c'>~고</span>+<span class='h-c'>그래서</span>+<span class='h-c'>점점</span> 串句。"], ["advance", "亮点词", "<span class='h-g'>세금</span>。"]]}, {"num": "句10", "parts": [[1, "뿐만 아니라 "], [0, "아이와 관련된 직업을 가진 사람들이 일자리를 잃는"], [1, " 것도 무시할 수 없다."]], "zh": "不仅如此，从事与孩子相关职业的人会失去工作这一点也是不容忽视的。", "fill": "아이와 관련된 직업을 가진 사람들이 일자리를 잃는", "notes": [["conn", "转折词", "<span class='h-c'>뿐만 아니라</span>。"], ["advance", "亮点词", "<span class='h-g'>일자리를 잃다</span>。"]]}, {"num": "句11", "parts": [[0, "아이가 줄어들수록 유치원 교사나 소아과 의료진이 점점 필요 없어지"], [1, "기 마련이다."]], "zh": "孩子越减少，幼儿园教师和儿科医护人员渐渐变得不被需要。", "fill": "아이가 줄어들수록 유치원 교사나 소아과 의료진이 점점 필요 없어지", "notes": [["conn", "连接词", "<span class='h-c'>~ㄹ수록</span>+<span class='h-c'>점점</span>。"], ["advance", "亮点词", "<span class='h-g'>줄어들다</span>。"]]}, {"seg": "第三段", "segtype": "teal", "segcount": "对策", "num": "句12", "parts": [[1, "따라서 이를 대응하기 위해 다각적인 노력이 필수적이다."]], "zh": "因此，为了应对这一问题，多方面的努力是必不可少的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "用 <span class='h-g'>이를 대응하기 위해</span>。"], ["conn", "转折词", "<span class='h-c'>따라서</span>。"]]}, {"num": "句13", "parts": [[1, "일단 "], [0, "정부는 출산 장려금을 지급하고 양육비를 적극적으로 지원해"], [1, "야 한다."]], "zh": "首先，政府必须发放生育奖励金，并且积极支援育儿费。", "fill": "정부는 출산 장려금을 지급하고 양육비를 적극적으로 지원해", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>+<span class='h-c'>적극적으로</span>。"], ["advance", "亮点词", "<span class='h-g'>출산 장려금</span>、<span class='h-g'>지원하다</span>。"]]}, {"num": "句14", "parts": [[1, "아울러 "], [0, "임신한 여성이 회사에서 불이익을 받지 않도록 제도를 마련하"], [1, "는 것도 요구된다."]], "zh": "同时，也要求建立让怀孕女性在公司不受不利对待的制度。", "fill": "임신한 여성이 회사에서 불이익을 받지 않도록 제도를 마련하", "notes": [["conn", "转折词", "<span class='h-c'>아울러</span>。"], ["advance", "亮点词", "<span class='h-g'>불이익을 받다</span>、<span class='h-g'>제도를 마련하다</span>。"]]}, {"num": "句15", "parts": [[1, "마지막으로 "], [0, "남성도 육아에 적극적으로 참여하며 양육의 부담을 함께 나눌"], [1, " 필요도 있다."]], "zh": "最后，男性也有必要积极参与育儿，共同分担养育负担。", "fill": "남성도 육아에 적극적으로 참여하며 양육의 부담을 함께 나눌", "notes": [["conn", "连接词", "<span class='h-c'>~며</span>+<span class='h-c'>적극적으로</span>+<span class='h-c'>함께</span>。"], ["advance", "亮点词", "<span class='h-g'>참여하다</span>、<span class='h-g'>부담을 나누다</span>。"]]}, {"num": "句16", "parts": [[0, "이러한 노력이 모이면 더 나은 사회로 나아갈 수 있을 것이다"], [1, "."]], "zh": "这样的努力汇聚起来，就能走向更好的社会。", "fill": "이러한 노력이 모이면 더 나은 사회로 나아갈 수 있을 것이다", "notes": [["conn", "万能收尾", "字数不够时加。"]]}], "reuse": [["제도를 마련하다（制定制度）", "所有对策段最万能"], ["평균 수명（平均寿命）", "老龄化、医疗类"], ["늘어나다↔줄어들다（增减）", "数量变化对立词"], ["높아지다↔낮아지다（升降）", "比例、价格类"], ["부담을 나누다（分担负担）", "育儿、家庭类"]], "words": [["生育意愿降低", "출산 의지가 낮아지다"], ["平均寿命延长", "평균 수명이 늘어나다"], ["经济负担", "경제적 부담"], ["医疗费负担", "의료비 부담"], ["失去工作", "일자리를 잃다"], ["制定制度", "제도를 마련하다"], ["受到不利对待", "불이익을 받다"], ["分担负担", "부담을 나누다"]]}, "essay3": {"title": "数字设备的便利与副作用", "ko": "디지털 기기", "icon": "📱", "types": [["便利", "type-benefit", ""], ["副作用", "type-problem", ""], ["对策", "", "background:#f3e5f5;color:#6a1b9a;"]], "question": {"bg": "우리는 노트북, 태블릿 등 디지털 기기를 통해 언제 어디서든 업무를 볼 수 있고 여가생활에서도 이런 기기를 활용한다. 디지털 기기는 우리 생활에 편리함을 주어 의존도가 커지면 부작용이 나타날 수 있다. 아래의 내용을 중심으로 '디지털 기기의 편리함 및 부작용'에 대한 자신의 생각을 쓰라.", "items": [["Q1", "q1", "디지털 기기가 우리에게 주는 편리함에는 어떤 것이 있는가?", "数字设备给我们带来的便利有哪些？"], ["Q2", "q2", "디지털 기기에 대한 의존으로 인해 발생하는 부작용은 무엇인가?", "由于对数字设备的依赖产生的副作用是什么？"], ["Q3", "q3", "이런 부작용을 줄이려면 어떻게 노력해야 하는가?", "为了减少这些副作用应该如何努力？"]]}, "sentences": [{"seg": "第一段", "segtype": "blue", "segcount": "背景 + 便利", "num": "句1", "parts": [[1, "끊임없이 변화된 사회로 말미암아 "], [0, "디지털 기기"], [1, "에 관한 논의가 활발해졌다."]], "zh": "随着不断变化的社会，关于数字设备的讨论变得活跃起来。", "fill": "디지털 기기", "notes": [["template", "万能模板", "只换 <span class='h-a'>디지털 기기</span>。"], ["error", "易错", "<span class='h-r'>말미암이</span>✗→<span class='h-g'>말미암아</span>✓"]]}, {"num": "句2", "parts": [[1, "이에 따라 본고에서는 "], [0, "편리함"], [1, " 및 "], [0, "부작용"], [1, " 등을 순차적으로 고찰하고자 한다."]], "zh": "因此，本文将依次探讨便利之处及副作用等。", "fill": "편리함 / 부작용", "notes": [["conn", "连接词", "<span class='h-c'>이에 따라</span>。"], ["careful", "审题", "第1问问便利→<span class='h-g'>편리함</span>。"]]}, {"num": "句3", "parts": [[1, "디지털 기기가 우리에게 주는 편리함은 다양한데 우선 "], [0, "언제 어디서나 편하게 일할 수 있는"], [1, " 것을 꼽을 수 있다."]], "zh": "数字设备给我们带来的便利是多种多样的，首先可以指出随时随地都能方便地工作。", "fill": "언제 어디서나 편하게 일할 수 있는", "notes": [["advance", "亮点词", "<span class='h-g'>언제 어디서나</span>（随时随地）超好用。"]]}, {"num": "句4", "parts": [[1, "왜냐하면 "], [0, "시간과 장소에 상관없이 업무를 처리할 수 있어서 효율이 높아지"], [1, "기 때문이다."]], "zh": "因为不受时间和地点的限制就能处理业务，所以效率会提高。", "fill": "시간과 장소에 상관없이 업무를 처리할 수 있어서 효율이 높아지", "notes": [["conn", "连接词", "<span class='h-c'>~아서</span>（因为所以）。"], ["advance", "亮点词", "<span class='h-g'>효율</span>、<span class='h-g'>상관없이</span>（无关）。"]]}, {"num": "句5", "parts": [[1, "또한 "], [0, "멀리 있는 사람과도 쉽게 연락할 수 있는"], [1, " 것도 대표적이다."]], "zh": "此外，和远方的人也能轻松联系这一点也是具有代表性的。", "fill": "멀리 있는 사람과도 쉽게 연락할 수 있는", "notes": [["advance", "亮点词", "<span class='h-g'>연락하다</span>（联系）。"]]}, {"num": "句6", "parts": [[0, "영상 통화나 메시지를 이용하면 거리에 상관없이 소통할 수 있"], [1, "기 마련이다."]], "zh": "利用视频通话或消息，不受距离限制就能沟通。", "fill": "영상 통화나 메시지를 이용하면 거리에 상관없이 소통할 수 있", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>。"], ["advance", "亮点词", "<span class='h-g'>소통하다</span>（沟通）。"]]}, {"seg": "第二段", "segtype": "red", "segcount": "副作用", "num": "句7", "parts": [[1, "한편 디지털 기기에 대한 의존으로 인해 발생하는 부작용도 각양각색이다."]], "zh": "另一方面，由于对数字设备的依赖而产生的副作用也是形形色色的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "全句照抄。"], ["conn", "转折词", "<span class='h-c'>한편</span>。"], ["advance", "亮点词", "<span class='h-g'>의존</span>（依赖）。"]]}, {"num": "句8", "parts": [[1, "무엇보다도 "], [0, "오랜 시간 사용하면 건강이 나빠진다"], [1, "는 문제점이 존재한다."]], "zh": "最重要的是，存在着长时间使用会损害健康这样的问题。", "fill": "오랜 시간 사용하면 건강이 나빠진다", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>。"]]}, {"num": "句9", "parts": [[1, "왜냐하면 "], [0, "화면을 계속 보면 눈이 나빠지고 그래서 목이나 잠에도 안 좋은 영향을 주"], [1, "기 때문이다."]], "zh": "因为一直看屏幕眼睛会变差，所以对颈椎和睡眠也有不好的影响。", "fill": "화면을 계속 보면 눈이 나빠지고 그래서 목이나 잠에도 안 좋은 영향을 주", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>+<span class='h-c'>~고 그래서</span> 串句。"], ["advance", "亮点词", "<span class='h-g'>영향을 주다</span>（产生影响）。"]]}, {"num": "句10", "parts": [[1, "뿐만 아니라 "], [0, "사람들이 직접 만나서 대화하는 일이 점점 줄어드는"], [1, " 것도 무시할 수 없다."]], "zh": "不仅如此，人们直接见面对话的事渐渐减少这一点也是不容忽视的。", "fill": "사람들이 직접 만나서 대화하는 일이 점점 줄어드는", "notes": [["conn", "转折词", "<span class='h-c'>뿐만 아니라</span>+<span class='h-c'>점점</span>。"]]}, {"num": "句11", "parts": [[0, "모두 화면만 보다 보면 결국 사람 사이의 관계가 멀어지"], [1, "기 마련이다."]], "zh": "如果大家都只看屏幕，最终人与人之间的关系会变疏远。", "fill": "모두 화면만 보다 보면 결국 사람 사이의 관계가 멀어지", "notes": [["conn", "连接词", "<span class='h-c'>~다 보면</span>+<span class='h-c'>결국</span>。"], ["advance", "亮点词", "<span class='h-g'>관계가 멀어지다</span>（关系疏远）。"]]}, {"seg": "第三段", "segtype": "teal", "segcount": "对策（个人+学校）", "num": "句12", "parts": [[1, "따라서 이러한 부작용을 줄이기 위해 다각적인 노력이 필수적이다."]], "zh": "因此，为了减少这些副作用，多方面的努力是必不可少的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "用 <span class='h-g'>이러한 부작용을 줄이기 위해</span>。"], ["conn", "转折词", "<span class='h-c'>따라서</span>。"]]}, {"num": "句13", "parts": [[1, "일단 "], [0, "개인은 디지털 기기의 사용 시간을 정해 두고 지나치게 쓰지 않아"], [1, "야 한다."]], "zh": "首先，个人必须定好数字设备的使用时间，不过度使用。", "fill": "개인은 디지털 기기의 사용 시간을 정해 두고 지나치게 쓰지 않아", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>+<span class='h-c'>지나치게</span>。"]]}, {"num": "句14", "parts": [[1, "아울러 "], [0, "개인은 가족이나 친구와 직접 만나 대화하는 시간을 늘리"], [1, "는 것도 요구된다."]], "zh": "同时，也要求个人增加和家人朋友直接见面对话的时间。", "fill": "개인은 가족이나 친구와 직접 만나 대화하는 시간을 늘리", "notes": [["conn", "转折词", "<span class='h-c'>아울러</span>。"], ["advance", "亮点词", "<span class='h-g'>늘리다</span>（增加）。"]]}, {"num": "句15", "parts": [[1, "마지막으로 "], [0, "학교는 학생들에게 디지털 기기를 올바르게 사용하는 습관을 가르칠"], [1, " 필요도 있다."]], "zh": "最后，学校也有必要教学生正确使用数字设备的习惯。", "fill": "학교는 학생들에게 디지털 기기를 올바르게 사용하는 습관을 가르칠", "notes": [["advance", "亮点词", "<span class='h-g'>올바르게</span>（正确地）、<span class='h-g'>습관</span>（习惯）。"]]}, {"num": "句16", "parts": [[0, "이러한 노력이 모이면 더 건강한 사회로 나아갈 수 있을 것이다"], [1, "."]], "zh": "这样的努力汇聚起来，就能走向更健康的社会。", "fill": "이러한 노력이 모이면 더 건강한 사회로 나아갈 수 있을 것이다", "notes": [["conn", "万能收尾", "字数不够时加。"]]}], "reuse": [["언제 어디서나（随时随地）", "便利、效率类好处段"], ["효율이 높아지다（效率提高）", "科技、制度类好处"], ["영향을 주다（产生影响）", "各种因果论述"], ["관계가 멀어지다（关系疏远）", "社交、人际类问题"], ["습관을 가르치다（教习惯）", "教育、青少年类对策"]], "words": [["随时随地", "언제 어디서나"], ["效率提高", "효율이 높아지다"], ["不受限制", "상관없이"], ["沟通", "소통하다"], ["产生影响", "영향을 주다"], ["渐渐减少", "점점 줄어들다"], ["关系疏远", "관계가 멀어지다"], ["增加时间", "시간을 늘리다"], ["正确习惯", "올바른 습관"]]}, "essay4": {"title": "居家办公", "ko": "재택근무", "icon": "🏠", "types": [["优点", "type-benefit", ""], ["问题点", "type-problem", ""], ["对策", "", "background:#f3e5f5;color:#6a1b9a;"]], "question": {"bg": "최근 많은 기업과 직장에서 재택근무가 일반화되고 있다. 재택근무는 회사가 아니라 자신의 집이나 그 주변에서 스마트폰이나 컴퓨터 등 디지털 기기를 활용하여 일을 하는 방식이다. 이런 방식은 장점이 있지만 문제점도 있다. 아래의 내용을 중심으로 '재택근무의 장점과 문제점'에 대한 자신의 생각을 쓰라.", "items": [["Q1", "q1", "재택근무의 좋은 점은 무엇인가?", "居家办公的优点是什么？"], ["Q2", "q2", "재택근무로 어떤 문제점이 생길 수 있는가?", "居家办公会产生什么问题？"], ["Q3", "q3", "재택근무의 효과를 최대화하기 위한 방안은 무엇인가?", "使居家办公效果最大化的方案是什么？"]]}, "sentences": [{"seg": "第一段", "segtype": "blue", "segcount": "背景 + 优点", "num": "句1", "parts": [[1, "끊임없이 변화된 사회로 말미암아 "], [0, "재택근무"], [1, "에 관한 논의가 활발해졌다."]], "zh": "随着不断变化的社会，关于居家办公的讨论变得活跃起来。", "fill": "재택근무", "notes": [["template", "万能模板", "只换 <span class='h-a'>재택근무</span>。"], ["error", "易错", "<span class='h-r'>말미암이</span>✗→<span class='h-g'>말미암아</span>✓"]]}, {"num": "句2", "parts": [[1, "이에 따라 본고에서는 "], [0, "장점"], [1, " 및 "], [0, "문제점"], [1, " 등을 순차적으로 고찰하고자 한다."]], "zh": "因此，本文将依次探讨优点及问题点等。", "fill": "장점 / 문제점", "notes": [["careful", "审题", "第1问问优点→<span class='h-g'>장점</span>。"]]}, {"num": "句3", "parts": [[1, "재택근무가 우리에게 주는 장점은 다양한데 우선 "], [0, "조용하고 편안한 환경에서 일할 수 있는"], [1, " 것을 꼽을 수 있다."]], "zh": "居家办公给我们带来的优点是多种多样的，首先可以指出能在安静舒适的环境中工作。", "fill": "조용하고 편안한 환경에서 일할 수 있는", "notes": [["conn", "连接词", "<span class='h-c'>~고</span>（安静和舒适）。"]]}, {"num": "句4", "parts": [[1, "왜냐하면 "], [0, "복잡한 사무실보다 집이 더 조용해서 업무에 집중하기 좋"], [1, "기 때문이다."]], "zh": "因为比起复杂的办公室，家里更安静，所以容易集中于工作。", "fill": "복잡한 사무실보다 집이 더 조용해서 업무에 집중하기 좋", "notes": [["conn", "连接词", "<span class='h-c'>~보다</span>（比起）+<span class='h-c'>~아서</span>。"], ["advance", "亮点词", "<span class='h-g'>집중하다</span>（集中）。"]]}, {"num": "句5", "parts": [[1, "또한 "], [0, "기업이 사무실 유지 비용을 크게 줄일 수 있는"], [1, " 것도 대표적이다."]], "zh": "此外，企业能大幅减少办公室维持费用这一点也是具有代表性的。", "fill": "기업이 사무실 유지 비용을 크게 줄일 수 있는", "notes": [["advance", "亮点词", "<span class='h-g'>유지 비용</span>、<span class='h-g'>줄이다</span>。"]]}, {"num": "句6", "parts": [[0, "직원들이 회사에 나오지 않으면 전기 요금이나 청소비 같은 지출도 줄어들"], [1, "기 마련이다."]], "zh": "如果员工不来公司，电费和清洁费这类支出也会减少。", "fill": "직원들이 회사에 나오지 않으면 전기 요금이나 청소비 같은 지출도 줄어들", "notes": [["conn", "连接词", "<span class='h-c'>~면</span>。"], ["advance", "亮点词", "<span class='h-g'>지출</span>（支出）。"]]}, {"seg": "第二段", "segtype": "red", "segcount": "问题点", "num": "句7", "parts": [[1, "한편 재택근무로 인해 발생하는 문제점도 각양각색이다."]], "zh": "另一方面，由于居家办公而产生的问题也是形形色色的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "全句照抄。"], ["conn", "转折词", "<span class='h-c'>한편</span>。"]]}, {"num": "句8", "parts": [[1, "무엇보다도 "], [0, "직원들 사이의 소통이 불편해진다"], [1, "는 문제점이 존재한다."]], "zh": "最重要的是，存在着员工之间沟通变得不方便这样的问题。", "fill": "직원들 사이의 소통이 불편해진다", "notes": [["advance", "亮点词", "<span class='h-g'>소통</span>（沟通）。"]]}, {"num": "句9", "parts": [[1, "왜냐하면 "], [0, "직접 만날 수 없어서 전화나 인터넷으로 회의를 하면 시간이 더 오래 걸리"], [1, "기 때문이다."]], "zh": "因为不能直接见面，所以用电话或网络开会的话会花更长时间。", "fill": "직접 만날 수 없어서 전화나 인터넷으로 회의를 하면 시간이 더 오래 걸리", "notes": [["conn", "连接词", "<span class='h-c'>~아서</span>+<span class='h-c'>~면</span> 串句。"]]}, {"num": "句10", "parts": [[1, "뿐만 아니라 "], [0, "상사의 관리가 없어서 근무 효율이 떨어지는"], [1, " 것도 무시할 수 없다."]], "zh": "不仅如此，因为没有上司的管理导致工作效率下降这一点也是不容忽视的。", "fill": "상사의 관리가 없어서 근무 효율이 떨어지는", "notes": [["conn", "转折词", "<span class='h-c'>뿐만 아니라</span>。"], ["advance", "亮点词", "<span class='h-g'>효율이 떨어지다</span>（效率下降）。"]]}, {"num": "句11", "parts": [[0, "혼자 일하다 보면 긴장이 풀려서 일을 자꾸 미루"], [1, "기 마련이다."]], "zh": "如果一个人工作，会放松下来，总是拖延工作。", "fill": "혼자 일하다 보면 긴장이 풀려서 일을 자꾸 미루", "notes": [["conn", "连接词", "<span class='h-c'>~다 보면</span>+<span class='h-c'>~아서</span>。"], ["advance", "亮点词", "<span class='h-g'>미루다</span>（拖延）。"]]}, {"seg": "第三段", "segtype": "teal", "segcount": "对策（企业+个人）", "num": "句12", "parts": [[1, "따라서 재택근무의 효과를 최대화하기 위해 다각적인 노력이 필수적이다."]], "zh": "因此，为了使居家办公的效果最大化，多方面的努力是必不可少的。", "fill": "（全句照抄）", "notes": [["copy", "照抄", "用 <span class='h-g'>효과를 최대화하기 위해</span>，贴合第3问。"], ["conn", "转折词", "<span class='h-c'>따라서</span>。"]]}, {"num": "句13", "parts": [[1, "일단 "], [0, "기업은 직원들의 하루 업무 내용을 합리적으로 정해"], [1, "야 한다."]], "zh": "首先，企业必须合理地安排员工每天的工作内容。", "fill": "기업은 직원들의 하루 업무 내용을 합리적으로 정해", "notes": [["advance", "亮点词", "<span class='h-g'>합리적으로</span>（合理地）。"]]}, {"num": "句14", "parts": [[1, "아울러 "], [0, "기업은 인터넷 회의 도구를 이용해 소통을 편리하게 만드"], [1, "는 것도 요구된다."]], "zh": "同时，也要求企业利用网络会议工具，让沟通变得方便。", "fill": "기업은 인터넷 회의 도구를 이용해 소통을 편리하게 만드", "notes": [["conn", "转折词", "<span class='h-c'>아울러</span>。"], ["error", "易错", "<span class='h-r'>만들는</span>✗→<span class='h-g'>만드는</span>✓（만들다+는，ㄹ脱落）。"]]}, {"num": "句15", "parts": [[1, "마지막으로 "], [0, "개인은 동료와 자주 연락하며 함께 협력할"], [1, " 필요도 있다."]], "zh": "最后，个人也有必要和同事经常联系，一同协作。", "fill": "개인은 동료와 자주 연락하며 함께 협력할", "notes": [["conn", "连接词", "<span class='h-c'>~며</span>+<span class='h-c'>함께</span>。"], ["advance", "亮点词", "<span class='h-g'>협력하다</span>（协作）。"]]}, {"num": "句16", "parts": [[0, "이러한 노력이 모이면 더 좋은 결과로 이어질 것이다"], [1, "."]], "zh": "这样的努力汇聚起来，会带来更好的结果。", "fill": "이러한 노력이 모이면 더 좋은 결과로 이어질 것이다", "notes": [["conn", "万能收尾", "字数不够时加。"]]}], "reuse": [["유지 비용을 줄이다（减少维持费）", "企业、环保、成本类"], ["집중하기 좋다（容易集中）", "学习、工作环境类好处"], ["효율이 떨어지다（效率下降）", "各种负面影响"], ["합리적으로 정하다（合理安排）", "管理、制度类对策"], ["함께 협력하다（一同协作）", "团队、对策段个人层面"]], "words": [["安静舒适", "조용하고 편안하다"], ["容易集中", "집중하기 좋다"], ["维持费用", "유지 비용"], ["减少支出", "지출이 줄어들다"], ["沟通不便", "소통이 불편해지다"], ["效率下降", "효율이 떨어지다"], ["拖延", "미루다"], ["合理安排", "합리적으로 정하다"], ["一同协作", "함께 협력하다"]]}};
+
+function renderParts(parts,cls){return parts.map(function(p){return p[0]==1?'<span class="s-tpl">'+p[1]+'</span>':'<span class="s-fill">'+p[1]+'</span>';}).join('');}
+function renderFulltextParts(parts){return parts.map(function(p){return p[0]==1?'<span class="tpl">'+p[1]+'</span>':'<span class="fill">'+p[1]+'</span>';}).join('');}
+
+function renderLearn(e){
+  var h='';
+  // question box
+  h+='<div class="question-box"><h3>📋 题目原文</h3><div class="question-bg ko">'+e.question.bg+'</div><ul class="question-list">';
+  e.question.items.forEach(function(q){h+='<li><span class="q-num '+q[1]+'">'+q[0]+'</span><div><div class="q-ko">'+q[2]+'</div><div class="q-zh">'+q[3]+'</div></div></li>';});
+  h+='</ul></div>';
+  // type bar
+  h+='<div class="type-bar">';
+  e.types.forEach(function(t){var s=t[2]?' style="'+t[2]+'"':'';h+='<span class="tag '+t[1]+'"'+s+'>'+t[0]+'</span>';});
+  h+='</div>';
+  // fulltext
+  h+='<div class="fulltext"><div class="fulltext-title">📄 完整范文 · <span style="color:#bbb">灰色</span>=模板抄 · <span style="color:var(--fill)">橙色</span>=要背</div>';
+  var segs={};var order=[];
+  e.sentences.forEach(function(s){var sg=s.seg||order[order.length-1];if(s.seg){order.push(s.seg);segs[s.seg]=[];}segs[order[order.length-1]].push(s);});
+  order.forEach(function(sg){h+='<p><span class="para-label">'+sg+'</span>';segs[sg].forEach(function(s){h+=renderFulltextParts(s.parts);h+=' ';});h+='</p>';});
+  h+='</div>';
+  // legend
+  h+='<div class="legend"><span class="tag tag-template">万能模板</span><span class="tag tag-conn">连接词/副词</span><span class="tag tag-advance">亮点词</span><span class="tag tag-reuse">一鱼多吃</span><span class="tag tag-copy">照抄</span><span class="tag tag-error">易错</span></div>';
+  // segments
+  var curSeg=null;
+  e.sentences.forEach(function(s){
+    if(s.seg){curSeg=s.seg;h+='<div class="seg-header"><span class="seg-label seg-'+s.segtype+'">'+s.seg+'</span><span class="seg-count">'+s.segcount+'</span><div class="seg-line"></div></div>';}
+    h+='<div class="card"><div class="sent-row"><span class="sent-num">'+s.num+'</span><div class="sentence-display"><div class="sent-ko-wrap">'+renderParts(s.parts)+'</div></div></div><div class="chinese">'+s.zh+'</div><div class="notes">';
+    s.notes.forEach(function(n){h+='<div class="note-item"><span class="tag '+tagMap[n[0]]+'">'+n[1]+'</span><span>'+n[2]+'</span></div>';});
+    h+='</div></div>';
+  });
+  // reuse
+  h+='<div class="reuse-box"><h3>🐟 一鱼多吃 · 可迁移词组</h3>';
+  e.reuse.forEach(function(r){h+='<div class="reuse-item"><span class="ko">'+r[0]+'</span> → <span style="color:var(--hint)">'+r[1]+'</span></div>';});
+  h+='</div><footer>TOPIK II · 加油！</footer>';
+  return h;
+}
+
+function renderDict(e){
+  var h='<div class="dictation-intro">✍️ 看中文，默写整句韩文（在纸上或心里）。灰色模板不用纠结，重点默出<b>橙色填空部分</b>。点卡片显示答案。</div>';
+  h+='<button class="reveal-all-btn" onclick="revealAll(\'dict\')">👁️ 全部显示 / 隐藏</button>';
+  var curSeg=null;
+  e.sentences.forEach(function(s){
+    if(s.seg){h+='<div class="dict-section-title">'+s.seg+' · '+s.segcount+'</div>';}
+    h+='<div class="dict-card" onclick="this.classList.toggle(\'revealed\')"><div class="dict-zh"><b>'+s.num+'</b>　'+s.zh+'</div><div class="dict-tap">👆 点击显示韩文</div><div class="dict-answer ko">'+renderParts(s.parts)+'</div></div>';
+  });
+  h+='<footer>默写练习 · 重点记橙色 · 加油！</footer>';
+  return h;
+}
+
+function renderWord(e){
+  var h='<div class="dictation-intro">🔑 只默写本篇的<b>核心词组</b>，最高效。看中文想韩文，点卡片显示答案。利用碎片时间快速过。</div>';
+  h+='<button class="reveal-all-btn" onclick="revealAll(\'word\')">👁️ 全部显示 / 隐藏</button>';
+  h+='<div class="word-grid">';
+  e.words.forEach(function(w){
+    h+='<div class="word-card" onclick="this.classList.toggle(\'revealed\')"><div class="word-zh">'+w[0]+'</div><div class="word-tap">👆 显示</div><div class="word-ko">'+w[1]+'</div></div>';
+  });
+  h+='</div><footer>词组默写 · 考前快速过 · 加油！</footer>';
+  return h;
+}
+
+function revealAll(mode){
+  var sel=mode==='dict'?'.dict-card':'.word-card';
+  var cards=document.querySelectorAll('#essay-body '+sel);
+  var anyHidden=false;
+  cards.forEach(function(c){if(!c.classList.contains('revealed'))anyHidden=true;});
+  cards.forEach(function(c){if(anyHidden)c.classList.add('revealed');else c.classList.remove('revealed');});
+}
+
+function renderBody(){
+  var e=essays[currentEssay];
+  var body=document.getElementById('essay-body');
+  if(currentMode==='learn')body.innerHTML=renderLearn(e);
+  else if(currentMode==='dict')body.innerHTML=renderDict(e);
+  else body.innerHTML=renderWord(e);
+  window.scrollTo(0,0);
+}
+
+function switchMode(m){
+  currentMode=m;
+  document.getElementById('tab-learn').classList.toggle('active',m==='learn');
+  document.getElementById('tab-dict').classList.toggle('active',m==='dict');
+  document.getElementById('tab-word').classList.toggle('active',m==='word');
+  renderBody();
+}
+
+function showEssay(id){
+  currentEssay=id;currentMode='learn';
+  document.getElementById('essay-nav-title').textContent=essays[id].title+' · '+essays[id].ko;
+  document.getElementById('tab-learn').classList.add('active');
+  document.getElementById('tab-dict').classList.remove('active');
+  document.getElementById('tab-word').classList.remove('active');
+  renderBody();
+  document.getElementById('index').classList.remove('active');
+  document.getElementById('quickref').classList.remove('active');
+  document.getElementById('essay').classList.add('active');
+  window.scrollTo(0,0);
+}
+function showIndex(){document.getElementById('essay').classList.remove('active');document.getElementById('quickref').classList.remove('active');document.getElementById('index').classList.add('active');window.scrollTo(0,0);}
+function showQuickRef(){document.getElementById('index').classList.remove('active');document.getElementById('essay').classList.remove('active');document.getElementById('quickref').classList.add('active');window.scrollTo(0,0);}
+</script>
+</body>
+</html>
